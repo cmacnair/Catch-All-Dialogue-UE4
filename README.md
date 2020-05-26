@@ -4,7 +4,12 @@
 ## What is Catch All Dialogue?
 It's a plugin for Unreal Engine 4 that provides a framework for composing **expressive game audio dialogue systems**.
 
+The dialogue subsystem handles all the complexity for concurrent dialogue systems and dynamic speaker priorities. See the image below for a high level overview.
+
 ![Image of High Level Overview](https://github.com/cmacnair/Catch-All-Dialogue-UE4/blob/master/doc/High%20Level%20Overview.png)
+
+For creating a new dialogue instance, see the diagram below for subclassing requirements:
+![Image of Subclassing Overview](https://github.com/cmacnair/Catch-All-Dialogue-UE4/blob/master/doc/Subclassing%20Overview.png)
 
 ----
 ## What problems does it solve? Why use this framework?
