@@ -1,0 +1,39 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "",
+	"FriendlyName": "Catch All Dialogue Plugin",
+	"Description": "A plugin for composing dialogue-based state machines",
+	"Category": "Audio",
+	"CreatedBy": "Cameron MacNair",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"Installed": false,
+	"EnabledByDefault" : false,
+	"Modules": [
+		{
+			"Name": "CADialogueDebug",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "CADialogue",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "CADialogueExamples",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "CADialogueCommandlet",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
