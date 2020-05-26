@@ -7,7 +7,6 @@
 
 #include "CADialogueAudioBucket.h"
 #include "CADialogueInstanceInterface.h"
-/*#include "CADialogueInstanceDebugInterface.h"*/
 
 #include "CADialogueInstanceComponent.generated.h"
 
@@ -24,7 +23,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCADialogueInstanceEventSignature);
 UCLASS(BlueprintType, Blueprintable)
 class CADIALOGUE_API UCADialogueInstanceComponent : public UActorComponent
 	, public ICADialogueInstanceInterface
-	/*, public ICADialogueInstanceDebugInterface*/
 {
 	GENERATED_BODY()
 
@@ -46,10 +44,10 @@ public:
 	/** Toggle to false to prevent the instance from begin deregistered on EndPlay() */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CADialogue", meta = (AdvancedDisplay))
 	bool bCheckQueueDuringTick;
-	
-	/** A map of Speaker ->  Event Map -> AudioBuckets */
+
+	/** Speaker Audio Data */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CADialogue")
-	TMap<FGameplayTag, FCADialogueSpeakerAudioBuckets> SpeakerAudioBucketMap;
+	class UCADialogueSpeakerDataAsset* SpeakerAudioData;
 
 	/** An event that is broadcasted when a dialogue event has been received on this instance */
 	UPROPERTY(BlueprintAssignable, Category = "CADialogue")
@@ -102,9 +100,7 @@ protected:
 	// ======================================
 
 #if CADIALOGUE_DEBUG
-	// Begin ICADialogueInstanceDebugInterface
-	// virtual void MakeDebugReport() override;
-	// End ICADialogueInstanceDebugInterface
+	virtual void MakeDebugReport();
 #endif
 
 protected:

@@ -1,5 +1,6 @@
 #include "CADialogueInstanceComponent.h"
 #include "CADialogueSubsystem.h"
+#include "CADialogueSpeakerDataAsset.h"
 
 UCADialogueInstanceComponent::UCADialogueInstanceComponent()
 	: bRegisterOnBeginPlay(true)
@@ -84,6 +85,23 @@ void UCADialogueInstanceComponent::EndPlay(const EEndPlayReason::Type EndPlayRea
 	DeregisterInstance();
 }
 
+#if CADIALOGUE_DEBUG
+void UCADialogueInstanceComponent::MakeDebugReport()
+{
+	/*
+	
+	const FString PathName = FPaths::ProfilingDir() + TEXT("SVRStats/") + DirectoryName;
+	IFileManager::Get().MakeDirectory(*PathName);
+	const FString FileName = TEXT("SVRStatsDump.txt");
+	const FString FilenameFull = PathName + FileName;
+
+	FFileHelper::SaveStringToFile(FileContainer.FileContents, *FilenameFull);
+	UE_LOG(SVRStatsDump, Log, TEXT("SVRStats Dump: Saved file to: %s"), *FilenameFull);
+
+	*/
+}
+#endif
+
 void UCADialogueInstanceComponent::RegisterInstance()
 {
 	UCADialogueSubsystem* DialogueSubsystem = UCADialogueSubsystem::GetDialogueSubsystem(this);
@@ -100,10 +118,13 @@ void UCADialogueInstanceComponent::DeregisterInstance()
 
 class USoundBase* UCADialogueInstanceComponent::GetSoundForSpeakerWithEvent(FGameplayTag SpeakerTag, FGameplayTag EventTag)
 {
-	if (!SpeakerAudioBucketMap.Contains(SpeakerTag))
+	if (!SpeakerAudioData)
 		return nullptr;
 
-	FCADialogueSpeakerAudioBuckets& SpeakerBuckets = SpeakerAudioBucketMap[SpeakerTag];
+	if (!SpeakerAudioData->SpeakerAudioData.Contains(SpeakerTag))
+		return nullptr;
+
+	FCADialogueSpeakerAudioBuckets& SpeakerBuckets = SpeakerAudioData->SpeakerAudioData[SpeakerTag];
 
 	FCADialogueAudioBucket EventBucket;
 	bool bFoundBucketForEvent = SpeakerBuckets.GetBucketForEvent(EventTag, EventBucket);

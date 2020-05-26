@@ -1,0 +1,1 @@
+#include "ExampleEmoteSystem/CAEmoteTypes.h"

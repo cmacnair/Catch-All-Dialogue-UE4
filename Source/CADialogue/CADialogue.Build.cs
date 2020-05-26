@@ -13,8 +13,6 @@ public class CADialogue : ModuleRules
                 "CoreUObject",
 				"Engine",
                 "GameplayTags",
-
-                "CADialogueDebug",
             }
 			);
 

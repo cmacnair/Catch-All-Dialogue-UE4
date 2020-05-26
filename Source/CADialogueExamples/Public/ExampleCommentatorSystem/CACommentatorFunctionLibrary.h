@@ -10,7 +10,7 @@
 
 #include "CACommentatorFunctionLibrary.generated.h"
 
-UCLASS(config = Game, defaultconfig, meta = (DisplayName = "CADialogue Developer Settings"))
+UCLASS(config = Game, defaultconfig, meta = (DisplayName = "Commentator Dialogue Developer Settings"))
 class UCACommentatorDeveloperSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -24,6 +24,7 @@ public:
 };
 
 
+/** Game systems API for sending events to the commentator system */
 UCLASS(BlueprintType)
 class UCACommentatorFunctionLibrary : public UBlueprintFunctionLibrary
 {

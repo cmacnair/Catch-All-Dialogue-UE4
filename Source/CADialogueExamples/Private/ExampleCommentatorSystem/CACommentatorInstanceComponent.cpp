@@ -9,14 +9,23 @@
 UCACommentatorInstanceComponent::UCACommentatorInstanceComponent()
 {
 	CurrentPriority = ECACommentatorPriority::Off;
+
+	MinTimeToTriggerChatter = 4.0f;
+	MaxTimeToTriggerChatter = 10.0f;
+
+	NextEventCountdownTime = 0.0f;
 }
 
 void UCACommentatorInstanceComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
-	// @todo measure time since last event, then play idle chatter
+	if (!PossibleIdleChatterSpeakers.Num() || !PossibleIdleChatterEvents.Num())
+		return;
 
+	NextEventCountdownTime -= DeltaTime;
+	if (NextEventCountdownTime <= 0)
+		RequestIdleChatterEvent();
 
 }
 
@@ -28,12 +37,14 @@ void UCACommentatorInstanceComponent::ReceiveEvent(FCADialogueEvent Event)
 	if (!FilterEvent(Event))
 		return;
 
+	NextEventCountdownTime = FMath::RandRange(MinTimeToTriggerChatter, MaxTimeToTriggerChatter);
+
 	// OK to play, so set the new priority and broadcast sounds
 	CurrentPriority = GetPriorityForEventTag(Event.EventTag);
 	
 	USoundBase* SoundToPlay = GetSoundForSpeakerWithEvent(Event.SpeakerTag, Event.EventTag);
 	if (!SoundToPlay)
-		return; // whoops! no sound loaded assigned..
+		return; // whoops! no sound assigned..
 	
 	BroadcastSoundToSpeakers(Event.SpeakerTag, Event.EventTag, SoundToPlay);
 }
@@ -68,6 +79,22 @@ ECACommentatorPriority UCACommentatorInstanceComponent::GetPriorityForEventTag(F
 bool UCACommentatorInstanceComponent::CheckPriority(ECACommentatorPriority InPriority)
 {
 	return InPriority > CurrentPriority;
+}
+
+void UCACommentatorInstanceComponent::RequestIdleChatterEvent()
+{
+	ensure(PossibleIdleChatterSpeakers.Num() && PossibleIdleChatterEvents.Num());
+
+	int32 SpeakerIndex = FMath::RandRange(0, PossibleIdleChatterSpeakers.Num()-1);
+	FGameplayTag SpeakerTag = PossibleIdleChatterSpeakers[SpeakerIndex];
+	int32 EventIndex = FMath::RandRange(0, PossibleIdleChatterSpeakers.Num() - 1);
+	FGameplayTag EventTag = PossibleIdleChatterEvents[EventIndex];
+
+	FCADialogueEvent NewIdleChatterEvent;
+	NewIdleChatterEvent.EventTag = EventTag;
+	NewIdleChatterEvent.SpeakerTag = SpeakerTag;
+
+	ReceiveEvent(NewIdleChatterEvent);
 }
 
 void UCACommentatorInstanceComponent::DialogueFinishedCallback(FGameplayTag EventTag, FGameplayTag SpeakerTag)
