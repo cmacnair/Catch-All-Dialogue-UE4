@@ -20,15 +20,15 @@ struct CADIALOGUE_API FCADialogueWeightedSound
 public:
 	FCADialogueWeightedSound()
 		: Sound(nullptr)
-		, Weighting(100.0f)
+		, Weighting(100)
 	{}
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CADialogue")
 	class USoundBase* Sound;
 
-	// @todo limit to 0 to 100
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CADialogue")
-	float Weighting;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CADialogue", meta=(UIMin = 0, UIMax = 100))
+	int32 Weighting;
 
 	// @todo add additional effects
 };

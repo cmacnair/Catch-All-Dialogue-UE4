@@ -7,6 +7,7 @@
 
 #include "CADialogueSpeakerComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCADialogueSpeakerEvent, FGameplayTag, EventTag);
 
 /**
 * A dialogue speaker component, a subclass of AudioComponent
@@ -15,8 +16,6 @@
 * - When played as part of a Dialogue Event, it is considered busy 
 *
 * @todo fades
-* @todo interrupting
-* @todo event for when reset, so it can be used for a queue
 */
 UCLASS(BlueprintType, Blueprintable, classGroup="CADialogue", meta = (BlueprintSpawnableComponent))
 class CADIALOGUE_API UCADialogueSpeakerComponent : public UAudioComponent
@@ -37,6 +36,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CADialogue")
 	FGameplayTag SpeakerTag;
 
+	UPROPERTY(BlueprintAssignable, Category = "CADialogue")
+	FCADialogueSpeakerEvent SpeakerInterruptedEvent;
+
+	UPROPERTY(BlueprintAssignable, Category = "CADialogue")
+	FCADialogueSpeakerEvent SpeakerStartedEvent;
+
+	UPROPERTY(BlueprintAssignable, Category = "CADialogue")
+	FCADialogueSpeakerEvent SpeakerSoppedEvent;
+
 	
 	/** Check if this speaker is playing as part of a dialogue event */
 	UFUNCTION(BlueprintCallable, Category = "CADialogue")
@@ -46,8 +54,6 @@ public:
 	void StartPlayingDialogue(FCADialogueSpeakerParams SpeakerParams);
 
 	FGameplayTag GetCurrentInstance() const { return CurrentInstance; }
-
-	// @todo interrupting..
 
 
 	UFUNCTION()

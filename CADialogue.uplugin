@@ -16,11 +16,6 @@
 	"EnabledByDefault" : false,
 	"Modules": [
 		{
-			"Name": "CADialogueDebug",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
 			"Name": "CADialogue",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"

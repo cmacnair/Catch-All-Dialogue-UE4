@@ -36,19 +36,29 @@ void UCADialogueSpeakerComponent::StartPlayingDialogue(FCADialogueSpeakerParams 
 {
 	ensure(SpeakerParams.SoundToPlay && SpeakerParams.InstanceTag != FGameplayTag::EmptyTag);
 
+	if (IsPlaying())
+	{
+		Stop();
+		SpeakerInterruptedEvent.Broadcast(CurrentEventTag);
+	}
+
 	SetSound(SpeakerParams.SoundToPlay);
 	CurrentInstance = SpeakerParams.InstanceTag;
+	CurrentEventTag = SpeakerParams.EventTag;
 	bShouldReleaseOnFinish = SpeakerParams.bShouldReleaseOnFinish;
 	DialogueFinishedCallback = SpeakerParams.DialogueFinishedCallback;
 
 	bIsInEvent = true;
 	Play();
 
+	SpeakerStartedEvent.Broadcast(CurrentEventTag);
 	OnAudioFinishedNative.AddUObject(this, &UCADialogueSpeakerComponent::OnAudioFinishedEvent);
 }
 
 void UCADialogueSpeakerComponent::OnAudioFinishedEvent(UAudioComponent* InComponent)
 {
+	SpeakerSoppedEvent.Broadcast(CurrentEventTag);
+
 	if (DialogueFinishedCallback)
 	{
 		DialogueFinishedCallback(CurrentEventTag, SpeakerTag);

@@ -30,8 +30,42 @@ For creating a new dialogue instance, see the diagram below for subclassing requ
 * Liberal use of Gameplay Tags so data can be changed easily by anyone on your team
 
 ----
+## TODO List:
+- Automated asset importing
+- Networking Callbacks
+- Player save (rules) interface
+- More debugging
+- More commandlet options
+- More options of separating speaker audio bucket data
+- Animation callbacks
+- Extra fx callbacks
+- Blueprint Function Override for exposing speaker to outside systems
+- Custom fades for starting, stopping, interrupting
+
+----
 ## Usage
-* @todo
+
+*How To Create A New Instance*
+
+1. Create a new folder in your dialogue instance's module called MyNewSystem
+
+1. Create a new file for your system's types "MyNewSystemTypes.h/.cpp"
+	* This types object is a good place to expose any system-wide classes, such as a priority enum
+
+1. Create a new file for your CADialogueInstanceComponent subclass "MyNewSystemInstanceComponent.h/.cpp"
+	* The instance component is where you implement any logic, such as looping idle chatter or condition changes
+
+1. Create a new file for your BlueprintFunctionLibrary "MyNewSystemFunctionLibrary.h/.cpp"
+	* Implement all the functions any external system would call to trigger an event
+	* Such as: PlayIdleChatterFromAnySpeaker() or PlayerEmote(FGameplayTag EmoteTag)
+
+1. Implement the classes, using the examples as a reference
+
+1. Add the gameplay tags and sound data to the instance component
+
+1. Add the gameplay tag to the project settings
+
+1. Add speaker components to your world and implement function library calls on external game systems
 
 ----
 ## Specs

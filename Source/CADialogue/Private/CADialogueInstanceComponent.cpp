@@ -85,6 +85,27 @@ void UCADialogueInstanceComponent::EndPlay(const EEndPlayReason::Type EndPlayRea
 	DeregisterInstance();
 }
 
+const TArray<class USoundBase*> UCADialogueInstanceComponent::GetListOfAllSounds() const
+{
+	TArray<class USoundBase*> SoundsFound;
+	
+	if (SpeakerAudioData)
+	{
+		for (auto& AudioBucketsIter : SpeakerAudioData->SpeakerAudioData)
+		{
+			for (auto& AudioBucketIter : AudioBucketsIter.Value.EventAudioBucketMap)
+			{
+				for (auto& SoundIter : AudioBucketIter.Value.Sounds)
+				{
+					SoundsFound.Add(SoundIter.Sound);
+				}
+			}
+		}
+	}
+
+	return SoundsFound;
+}
+
 #if CADIALOGUE_DEBUG
 void UCADialogueInstanceComponent::MakeDebugReport()
 {

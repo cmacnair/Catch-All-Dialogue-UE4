@@ -68,6 +68,7 @@ private:
 	UFUNCTION()
 	void DialogueFinishedCallbackFunc(FGameplayTag EventTag, FGameplayTag SpeakerTag) { DialogueFinishedCallback(EventTag, SpeakerTag); }
 
+	
 	// ======================================
 	// Begin ICADialogueInstanceInterface Interface
 public:
@@ -98,6 +99,9 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	// End UActorComponent Interface
 	// ======================================
+
+public:
+	const TArray<class USoundBase*> GetListOfAllSounds() const;
 
 #if CADIALOGUE_DEBUG
 	virtual void MakeDebugReport();

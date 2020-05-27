@@ -8,6 +8,9 @@
 #include "CAEmoteInstanceComponent.generated.h"
 
 /**
+* An example of an Emote System
+* Emotes are grunts, efforts, moans etc., commonly used to support player interactions
+* This system throttles the commands by priority and a required elapsed time 
 */
 UCLASS(BlueprintType, Blueprintable, classGroup="EmoteDialogue")
 class CADIALOGUEEXAMPLES_API UCAEmoteInstanceComponent : public UCADialogueInstanceComponent

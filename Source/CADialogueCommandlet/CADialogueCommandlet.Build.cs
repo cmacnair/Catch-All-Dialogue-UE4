@@ -13,7 +13,9 @@ public class CADialogueCommandlet : ModuleRules
                 "CoreUObject",
 				"Engine",
                 "GameplayTags",
-			}
+
+                "CADialogue",
+            }
 			);
 
         bFasterWithoutUnity = true;
