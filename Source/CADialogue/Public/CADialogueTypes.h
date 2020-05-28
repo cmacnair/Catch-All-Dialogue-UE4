@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 
 #include <GameplayTagContainer.h>
+#include <Stats/Stats.h>
 
 #include "CADialogueTypes.generated.h"
 
@@ -14,6 +15,9 @@ DECLARE_LOG_CATEGORY_EXTERN(CADialogueLog, Log, All);
 #define CADIALOGUE_DEBUG 0
 #endif
 
+DECLARE_STATS_GROUP(TEXT("CADialogue"), STATGROUP_CADialogue, STATCAT_Advanced);
+
+DECLARE_DWORD_COUNTER_STAT_EXTERN(TEXT("MemoryStat"), STAT_CADialogueMemoryStat, STATGROUP_CADialogue, );
 
 
 /** Defines data to pass to a Speaker to play a dialogue sound*/

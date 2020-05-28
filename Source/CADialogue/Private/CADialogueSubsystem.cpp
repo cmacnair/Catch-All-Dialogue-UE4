@@ -32,6 +32,7 @@ class UCADialogueInstanceComponent* UCADialogueSubsystem::GetInstanceByTag(FGame
 
 void UCADialogueSubsystem::SendEventToInstance(FCADialogueEvent Event, FGameplayTag InstanceTag, class UObject* Caller)
 {
+	DECLARE_SCOPE_CYCLE_COUNTER(TEXT("ReceiveEvent"), STAT_CADialogueReceiveEvent, STATGROUP_CADialogue);
 	UCADialogueInstanceComponent* Instance = GetInstanceByTag(InstanceTag, Caller);
 	check(Instance)
 		Instance->ReceiveEvent(Event);
@@ -72,6 +73,7 @@ UCADialogueInstanceComponent* UCADialogueSubsystem::GetDialogueInstanceByTag(FGa
 
 void UCADialogueSubsystem::RegisterSpeaker(class UCADialogueSpeakerComponent* InSpeaker)
 {
+	DECLARE_SCOPE_CYCLE_COUNTER(TEXT("RegisterSpeaker"), STAT_CADialogueRegisterSpeaker, STATGROUP_CADialogue);
 	if (DialogueSpeakers.Contains(InSpeaker->SpeakerTag))
 	{
 		DialogueSpeakers[InSpeaker->SpeakerTag].AddSpeakerComponent(InSpeaker);

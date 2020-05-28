@@ -4,6 +4,7 @@
 
 #include "CACommentatorTypes.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(CACommentatorDialogueLog, Log, All);
 
 /** Priorities (in order) for the commentator system */
 UENUM()

@@ -1,4 +1,7 @@
 #include "CADialogueInstanceComponent.h"
+
+#include <Stats/Stats.h>
+
 #include "CADialogueSubsystem.h"
 #include "CADialogueSpeakerDataAsset.h"
 
@@ -41,7 +44,12 @@ void UCADialogueInstanceComponent::AddEventToQueue(FCADialogueEvent Event)
 
 void UCADialogueInstanceComponent::ClearExpiredEventsInQueue()
 {
+	DECLARE_SCOPE_CYCLE_COUNTER(TEXT("ClearExpiredEvents"), STAT_CADialogueClearExpiredEvents, STATGROUP_CADialogue);
+	if (!EventQueue.Num())
+		return;
+
 	float CurrentTime = UCADialogueSubsystem::GetCurrentTime(this);
+
 	for (uint8 EventQueueIter = EventQueue.Num() - 1; EventQueueIter >= 0; --EventQueueIter)
 	{
 		float ElapsedTimeSinceEnteredQueue = CurrentTime - EventQueue[EventQueueIter].GetTimeStamp();
@@ -111,13 +119,13 @@ void UCADialogueInstanceComponent::MakeDebugReport()
 {
 	/*
 	
-	const FString PathName = FPaths::ProfilingDir() + TEXT("SVRStats/") + DirectoryName;
+	const FString PathName = FPaths::ProfilingDir() + TEXT("dir/") + DirectoryName;
 	IFileManager::Get().MakeDirectory(*PathName);
-	const FString FileName = TEXT("SVRStatsDump.txt");
+	const FString FileName = TEXT("dump.txt");
 	const FString FilenameFull = PathName + FileName;
 
 	FFileHelper::SaveStringToFile(FileContainer.FileContents, *FilenameFull);
-	UE_LOG(SVRStatsDump, Log, TEXT("SVRStats Dump: Saved file to: %s"), *FilenameFull);
+	UE_LOG(dump, Log, TEXT("SVRStats Dump: Saved file to: %s"), *FilenameFull);
 
 	*/
 }
@@ -125,6 +133,10 @@ void UCADialogueInstanceComponent::MakeDebugReport()
 
 void UCADialogueInstanceComponent::RegisterInstance()
 {
+	//QUICK_SCOPE_CYCLE_COUNTER(TEXT("CADialogue::RegisterInstance"));
+
+	DECLARE_SCOPE_CYCLE_COUNTER(TEXT("RegisterInstance"), STAT_CADialogueRegisterInstance, STATGROUP_CADialogue);
+
 	UCADialogueSubsystem* DialogueSubsystem = UCADialogueSubsystem::GetDialogueSubsystem(this);
 	ensure(DialogueSubsystem);
 	DialogueSubsystem->RegisterInstance(this);
@@ -139,6 +151,7 @@ void UCADialogueInstanceComponent::DeregisterInstance()
 
 class USoundBase* UCADialogueInstanceComponent::GetSoundForSpeakerWithEvent(FGameplayTag SpeakerTag, FGameplayTag EventTag)
 {
+	DECLARE_SCOPE_CYCLE_COUNTER(TEXT("GetSoundForEvent"), STAT_CADialogueGetSoundForEvent, STATGROUP_CADialogue);
 	if (!SpeakerAudioData)
 		return nullptr;
 

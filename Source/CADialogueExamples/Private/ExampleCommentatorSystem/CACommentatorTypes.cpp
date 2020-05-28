@@ -1,1 +1,3 @@
 #include "ExampleCommentatorSystem/CACommentatorTypes.h"
+
+DEFINE_LOG_CATEGORY(CACommentatorDialogueLog)

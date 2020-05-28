@@ -2,12 +2,16 @@
 
 #include "CADialogueSubsystem.h"
 #include "CADialogueEvent.h"
+#include "CADialogueExamplesTypes.h"
+
+#include "ExampleCommentatorSystem/CACommentatorTypes.h"
 
 #include "ExampleCommentatorSystem/CACommentatorInstanceComponent.h"
 
 
 void UCACommentatorFunctionLibrary::SendCommentatorEventByTags(FGameplayTag Event, FGameplayTag Speaker, UObject* Caller)
 {
+	DECLARE_SCOPE_CYCLE_COUNTER(TEXT("SendCommentatorEventTag"), STAT_CADialogueExamplesSendCommentatorEventTag, STATGROUP_CADialogueExamples);
  	FGameplayTag CommentatorSystemTag = UCACommentatorDeveloperSettings::Get()->CommentatorSystemTag;
 	if (CommentatorSystemTag == FGameplayTag::EmptyTag)
 		return;
@@ -20,6 +24,7 @@ void UCACommentatorFunctionLibrary::SendCommentatorEventByTags(FGameplayTag Even
 
 void UCACommentatorFunctionLibrary::SendCommentatorEvent(FCADialogueEvent Event, class UObject* Caller)
 {
+	DECLARE_SCOPE_CYCLE_COUNTER(TEXT("SendCommentatorEvent"), STAT_CADialogueExamplesSendCommentatorEvent, STATGROUP_CADialogueExamples);
 	FGameplayTag CommentatorSystemTag = UCACommentatorDeveloperSettings::Get()->CommentatorSystemTag;
 	if (CommentatorSystemTag == FGameplayTag::EmptyTag)
 		return;
